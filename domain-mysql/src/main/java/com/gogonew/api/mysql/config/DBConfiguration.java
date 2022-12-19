@@ -12,9 +12,9 @@ public class DBConfiguration {
     public DataSource datasource() {
         return DataSourceBuilder.create()
             .driverClassName("com.mysql.cj.jdbc.Driver")
-            .url("jdbc:mysql://localhost:3306/shopping_mall?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul")
-            .username("mall")
-            .password("mall")
+            .url("jdbc:mysql://localhost:3306/gogo_new?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul")
+            .username("gogonew")
+            .password("gogonew")
             .build();
     }
 }
