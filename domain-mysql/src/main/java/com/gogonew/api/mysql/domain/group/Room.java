@@ -7,12 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity
+
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Room extends BaseTimeEntity {
     @GeneratedValue(generator = "UUID") // 분산 DB 고려 identity 보다 UUID 선택
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -21,11 +26,11 @@ public class Room extends BaseTimeEntity {
     private UUID id;
 
     @Column
-    private String groupName;
+    private String roomName;
 
     @Column
     private String backgroundImgUrl;
 
     @Column
-    private String isDeleted;
+    private boolean isDeleted;
 }
