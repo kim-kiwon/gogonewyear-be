@@ -2,17 +2,24 @@ package com.gogonew.api.room;
 
 import com.gogonew.api.mysql.domain.group.Room;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 
 public class RoomDto {
 
     @Getter
     @NoArgsConstructor // Spring이 파라미터에서 생성하기 위해 필요
     public static class Create {
+        @NotBlank(message = "방 제목을 작성해주세요.")
+        @Size(max = 20, message = "방제목은 20자 이내로 작성해주세요.")
         private String roomName;
+
+        @URL(message = "배경 이미지는 Url 양식으로 입력해주세요.")
+        @Size(max = 200, message = "배경 이미지 Url은 200자 이내로 작성해주세요.")
         private String backgroundImageUrl;
 
         // RoomCreateDto.Request -> Room
