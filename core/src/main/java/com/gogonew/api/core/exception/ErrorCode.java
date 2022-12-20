@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     SERVER_ERROR(500, "C000", "서버 오류가 발생하였습니다."),
-    INVALID_INPUT_VALUE(400, "C001", "비정상적인 입력입니다.");
+    INVALID_INPUT_VALUE(400, "C001", "잘못된 입력입니다.");
 
     private int status;
     private final String code;

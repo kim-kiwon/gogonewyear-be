@@ -3,7 +3,6 @@ package com.gogonew.api.core.response;
 import com.gogonew.api.core.exception.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Builder
@@ -16,12 +15,14 @@ public class ApiResponse<T> {
         return ApiResponse.<T>builder()
             .isSuccess(true)
             .data(data)
+            .errorCode(null)
             .build();
     }
 
-    public static <T> ApiResponse<T> fail(ErrorCode errorCode) {
-        return ApiResponse.<T>builder()
+    public static ApiResponse fail(ErrorCode errorCode) {
+        return ApiResponse.builder()
             .isSuccess(false)
+            .data(null)
             .errorCode(errorCode)
             .build();
     }

@@ -1,5 +1,8 @@
 package com.gogonew.api.core.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ApiException extends RuntimeException {
     private ErrorCode errorCode;
 
