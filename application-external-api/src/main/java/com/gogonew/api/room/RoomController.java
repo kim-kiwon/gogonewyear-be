@@ -1,7 +1,5 @@
 package com.gogonew.api.room;
 
-import com.gogonew.api.core.exception.ApiException;
-import com.gogonew.api.core.exception.ErrorCode;
 import com.gogonew.api.core.response.ApiMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,12 +32,7 @@ public class RoomController {
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @PostMapping("/v1/room")
     public ApiMessage createRoom(
-            @Parameter(description = "입력 데이터") @RequestBody @Valid RoomDto.Create request, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            log.error("[Room] 방 생성 검증 오류. 예외메시지: {}", bindingResult.getFieldError().getDefaultMessage());
-            throw new ApiException(ErrorCode.INVALID_INPUT_VALUE);
-        }
-
+            @Parameter(description = "입력 데이터") @RequestBody @Valid RoomDto.Create request) {
         return ApiMessage.success(roomService.addRoom(request));
     }
 }
