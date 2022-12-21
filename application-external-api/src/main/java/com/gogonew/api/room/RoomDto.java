@@ -19,6 +19,7 @@ public class RoomDto {
         private String roomName;
 
         @URL(message = "배경 이미지는 Url 양식으로 입력해주세요.")
+        @NotBlank(message = "배경 이미지 URL을 입력해주세요.")
         @Size(max = 200, message = "배경 이미지 Url은 200자 이내로 작성해주세요.")
         private String backgroundImageUrl;
 

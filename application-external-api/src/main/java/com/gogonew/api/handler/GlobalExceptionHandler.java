@@ -3,10 +3,12 @@ package com.gogonew.api.handler;
 import com.gogonew.api.core.exception.ApiException;
 import com.gogonew.api.core.exception.ErrorCode;
 import com.gogonew.api.core.response.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
@@ -18,6 +20,7 @@ public class GlobalExceptionHandler {
     // 클라이언트에게 서버에러로 전송 및 로깅
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handleGlobalException(Exception ex) {
+        log.error("[Global] 미처리 예외 발생.", ex);
         ApiException apiEx = new ApiException(ex);
 
         return getResponseEntity(apiEx);

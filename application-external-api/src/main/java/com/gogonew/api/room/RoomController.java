@@ -5,11 +5,13 @@ import com.gogonew.api.core.exception.ErrorCode;
 import com.gogonew.api.core.response.ApiResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class RoomController {
@@ -20,7 +22,7 @@ public class RoomController {
     public ApiResponse createRoom(
             @RequestBody @Valid RoomDto.Create request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            // 로깅하고 에러응답
+            log.error("[Room] 방 생성 검증 오류. 예외메시지: {}", bindingResult.getFieldError().getDefaultMessage());
             throw new ApiException(ErrorCode.INVALID_INPUT_VALUE);
         }
 
