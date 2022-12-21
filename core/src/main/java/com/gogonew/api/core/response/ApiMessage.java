@@ -7,23 +7,23 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ApiMessage<T> {
-    private boolean success;
+    private int status;
     private T data;
-    private ErrorCode errorCode;
+    private String errorMsg;
 
     public static <T> ApiMessage<T> success(T data) {
         return ApiMessage.<T>builder()
-            .success(true)
+            .status(200)
             .data(data)
-            .errorCode(null)
+            .errorMsg(null)
             .build();
     }
 
     public static ApiMessage fail(ErrorCode errorCode) {
         return ApiMessage.builder()
-            .success(false)
+            .status(errorCode.getStatus())
             .data(null)
-            .errorCode(errorCode)
+            .errorMsg(errorCode.getMessage())
             .build();
     }
 }

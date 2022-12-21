@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiMessage> handleApiException(ApiException ex) {
-        log.error(ex.getMessage(), ex);
+        log.error("[Custom] 커스텀 예외 발생", ex);
         return getErrorResponse(ex.getErrorCode());
     }
 
