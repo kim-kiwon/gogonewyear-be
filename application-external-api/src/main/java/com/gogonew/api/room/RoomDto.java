@@ -38,7 +38,7 @@ public class RoomDto {
     public static class Response {
         private String roomName;
         private String backgroundImageUrl;
-        private boolean isDeleted;
+        private boolean disabled;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
@@ -47,7 +47,7 @@ public class RoomDto {
             return Response.builder()
                 .roomName(room.getRoomName())
                 .backgroundImageUrl(room.getBackgroundImgUrl())
-                .isDeleted(room.isDeleted())
+                .disabled(room.isDisabled())
                 .createdDate(room.getCreatedDate())
                 .modifiedDate(room.getModifiedDate())
                 .build();

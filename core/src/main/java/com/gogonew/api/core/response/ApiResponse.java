@@ -7,13 +7,13 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ApiResponse<T> {
-    private boolean isSuccess;
+    private boolean success;
     private T data;
     private ErrorCode errorCode;
 
     public static <T> ApiResponse<T> success(T data) {
         return ApiResponse.<T>builder()
-            .isSuccess(true)
+            .success(true)
             .data(data)
             .errorCode(null)
             .build();
@@ -21,7 +21,7 @@ public class ApiResponse<T> {
 
     public static ApiResponse fail(ErrorCode errorCode) {
         return ApiResponse.builder()
-            .isSuccess(false)
+            .success(false)
             .data(null)
             .errorCode(errorCode)
             .build();

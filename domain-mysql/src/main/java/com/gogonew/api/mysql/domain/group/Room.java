@@ -32,5 +32,5 @@ public class Room extends BaseTimeEntity {
     private String backgroundImgUrl;
 
     @Column
-    private boolean isDeleted;
+    private boolean disabled;
 }
