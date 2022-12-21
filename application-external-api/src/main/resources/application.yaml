@@ -7,3 +7,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+springdoc:
+  version: 1.0.0
+  packages-to-scan: com.gogonew.api
+  swagger-ui:
+    path: /docs
+
