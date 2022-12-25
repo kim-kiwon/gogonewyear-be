@@ -2,6 +2,8 @@ package com.gogonew.api.room;
 
 import com.gogonew.api.mysql.domain.group.Room;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.Builder;
@@ -51,6 +53,13 @@ public class RoomDto {
                 .createdDate(room.getCreatedDate())
                 .modifiedDate(room.getModifiedDate())
                 .build();
+        }
+
+        // List<Room>의 모든 원소를 of를 활용해 RoomDto.Response로 변환
+        public static List<Response> ofList(List<Room> rooms) {
+            return rooms.stream()
+                .map(Response::of)
+                .collect(Collectors.toList());
         }
     }
 }
