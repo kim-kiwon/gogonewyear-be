@@ -2,8 +2,8 @@ package com.gogonew.api.room;
 
 import com.gogonew.api.core.exception.ApiException;
 import com.gogonew.api.core.exception.ErrorCode;
-import com.gogonew.api.mysql.domain.group.Room;
-import com.gogonew.api.mysql.domain.group.RoomRepository;
+import com.gogonew.api.mysql.domain.room.Room;
+import com.gogonew.api.mysql.domain.room.RoomRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

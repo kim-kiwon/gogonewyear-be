@@ -1,4 +1,4 @@
-package com.gogonew.api.mysql.domain.group;
+package com.gogonew.api.mysql.domain.room;
 
 import com.gogonew.api.mysql.domain.BaseTimeEntity;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.gogonew.api.mysql.domain.group;
+package com.gogonew.api.mysql.domain.room;
 
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;

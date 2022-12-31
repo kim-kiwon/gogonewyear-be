@@ -1,6 +1,6 @@
 package com.gogonew.api.room;
 
-import com.gogonew.api.mysql.domain.group.Room;
+import com.gogonew.api.mysql.domain.room.Room;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
