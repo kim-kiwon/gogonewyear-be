@@ -2,3 +2,5 @@ rootProject.name = 'api'
 include 'application-external-api'
 include 'core'
 include 'domain-mysql'
+include 'etc-spring-yaml-importer'
+

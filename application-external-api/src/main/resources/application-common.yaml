@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
+springdoc:
+  version: 1.0.0
+  packages-to-scan: com.gogonew.api
+  swagger-ui:
+    path: /docs
