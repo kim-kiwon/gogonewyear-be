@@ -5,7 +5,6 @@ import com.gogonew.api.core.exception.ErrorCode;
 import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.mysql.domain.room.RoomRepository;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,7 @@ public class RoomService {
     }
 
     @Transactional(readOnly = true)
-    public RoomDto.Response getRoom(UUID roomId) {
+    public RoomDto.Response getRoom(Long roomId) {
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new ApiException(ErrorCode.NO_DATA));
         return RoomDto.Response.of(room);
     }

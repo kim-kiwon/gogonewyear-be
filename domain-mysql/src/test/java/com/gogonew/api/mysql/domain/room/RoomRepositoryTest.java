@@ -1,6 +1,5 @@
 package com.gogonew.api.mysql.domain.room;
 
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ class RoomRepositoryTest {
     void save() {
         //given
         Room room = Room.builder()
-            .id(UUID.randomUUID())
+            .id(1L)
             .roomName("testRoom")
             .backgroundImgUrl("http://www.testurl.com")
             .disabled(false)

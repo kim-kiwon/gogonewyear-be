@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +46,8 @@ public class RoomController {
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/room/{roomId}")
     public ApiMessage getRoom(
-        @Parameter(description = "랜덤으로 부여되는 방의 Id") @PathVariable String roomId) {
-        return ApiMessage.success(roomService.getRoom(UUID.fromString(roomId)));
+        @Parameter(description = "랜덤으로 부여되는 방의 Id") @PathVariable Long roomId) {
+        return ApiMessage.success(roomService.getRoom(roomId));
     }
 
 

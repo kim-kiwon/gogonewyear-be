@@ -2,10 +2,10 @@ package com.gogonew.api.mysql.domain.pocket;
 
 import com.gogonew.api.mysql.domain.BaseTimeEntity;
 import com.gogonew.api.mysql.domain.room.Room;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 @Getter
 @Builder
@@ -21,11 +20,9 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @Entity
 public class Pocket extends BaseTimeEntity {
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "BINARY(16)")
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column
     private String pocketName;
