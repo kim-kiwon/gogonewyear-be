@@ -53,7 +53,7 @@ public class RoomDto {
                 .roomName(room.getRoomName())
                 .backgroundImageUrl(room.getBackgroundImgUrl())
                 .disabled(room.isDisabled())
-                .pockets(room.getPockets().stream().map(PocketDto.Response::of).collect(Collectors.toList())) // 순환참조 방지를 위해 Pocket 엔티티를 직접 반환하는게 아닌 Pocket.ResponseDto를 반환
+                .pockets(PocketDto.Response.ofList(room.getPockets())) // 순환참조 방지를 위해 Pocket 엔티티를 직접 반환하는게 아닌 Pocket.ResponseDto를 반환
                 .createdDate(room.getCreatedDate())
                 .modifiedDate(room.getModifiedDate())
                 .build();

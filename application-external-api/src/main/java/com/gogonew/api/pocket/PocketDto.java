@@ -3,6 +3,8 @@ package com.gogonew.api.pocket;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.mysql.domain.room.Room;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -67,6 +69,12 @@ public class PocketDto {
                 .createdDate(pocket.getCreatedDate())
                 .modifiedDate(pocket.getModifiedDate())
                 .build();
+        }
+
+        public static List<PocketDto.Response> ofList(List<Pocket> pockets) {
+            return pockets.stream()
+                .map(PocketDto.Response::of)
+                .collect(Collectors.toList());
         }
     }
 }
