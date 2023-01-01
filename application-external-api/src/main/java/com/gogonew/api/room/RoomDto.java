@@ -1,7 +1,9 @@
 package com.gogonew.api.room;
 
 import com.gogonew.api.mysql.domain.room.Room;
+import com.gogonew.api.pocket.PocketDto;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
@@ -30,8 +32,8 @@ public class RoomDto {
             return Room.builder()
                 .roomName(this.getRoomName())
                 .backgroundImgUrl(this.getBackgroundImageUrl())
+                .pockets(new ArrayList<>())
                 .build();
-
         }
     }
 
@@ -41,6 +43,7 @@ public class RoomDto {
         private String roomName;
         private String backgroundImageUrl;
         private boolean disabled;
+        private List<PocketDto.Response> pockets;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
@@ -50,6 +53,7 @@ public class RoomDto {
                 .roomName(room.getRoomName())
                 .backgroundImageUrl(room.getBackgroundImgUrl())
                 .disabled(room.isDisabled())
+                .pockets(room.getPockets().stream().map(PocketDto.Response::of).collect(Collectors.toList())) // 순환참조 방지를 위해 Pocket 엔티티를 직접 반환하는게 아닌 Pocket.ResponseDto를 반환
                 .createdDate(room.getCreatedDate())
                 .modifiedDate(room.getModifiedDate())
                 .build();

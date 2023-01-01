@@ -2,7 +2,6 @@ package com.gogonew.api.mysql.domain.room;
 
 import com.gogonew.api.mysql.domain.BaseTimeEntity;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,5 +35,5 @@ public class Room extends BaseTimeEntity {
     private boolean disabled;
 
     @OneToMany(mappedBy = "room")
-    private List<Pocket> pockets = new ArrayList<>();
+    private List<Pocket> pockets;
 }
