@@ -1,11 +1,15 @@
 package com.gogonew.api.mysql.domain.room;
 
 import com.gogonew.api.mysql.domain.BaseTimeEntity;
+import com.gogonew.api.mysql.domain.pocket.Pocket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,4 +37,7 @@ public class Room extends BaseTimeEntity {
 
     @Column
     private boolean disabled;
+
+    @OneToMany(mappedBy = "room")
+    private List<Pocket> pockets = new ArrayList<>();
 }
