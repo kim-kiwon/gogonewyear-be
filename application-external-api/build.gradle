@@ -1,6 +1,7 @@
 dependencies {
     implementation project(':core')
     implementation project(':domain-mysql')
+    implementation project(':etc-spring-yaml-importer')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
