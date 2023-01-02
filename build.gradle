@@ -4,6 +4,8 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
+bootJar.enabled = false
+
 subprojects {
 	group = 'com.gogonew'
 	version = '0.0.1'
@@ -21,6 +23,7 @@ subprojects {
 	}
 
 	repositories {
+		google()
 		mavenCentral()
 	}
 
