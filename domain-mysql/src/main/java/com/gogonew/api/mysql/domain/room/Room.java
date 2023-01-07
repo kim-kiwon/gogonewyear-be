@@ -1,14 +1,19 @@
 package com.gogonew.api.mysql.domain.room;
 
-import com.gogonew.api.mysql.domain.BaseTimeEntity;
-import com.gogonew.api.mysql.domain.pocket.Pocket;
 import java.util.List;
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import com.gogonew.api.mysql.domain.BaseTimeEntity;
+import com.gogonew.api.mysql.domain.pocket.Pocket;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,9 +26,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 public class Room extends BaseTimeEntity {
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "BINARY(16)")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Column
     private String roomName;

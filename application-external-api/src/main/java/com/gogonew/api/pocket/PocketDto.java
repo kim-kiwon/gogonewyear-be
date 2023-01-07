@@ -1,18 +1,23 @@
 package com.gogonew.api.pocket;
 
-import com.gogonew.api.mysql.domain.pocket.Pocket;
-import com.gogonew.api.mysql.domain.room.Room;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.URL;
+
+import com.gogonew.api.mysql.domain.pocket.Pocket;
+import com.gogonew.api.mysql.domain.room.Room;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
 
 public class PocketDto {
 
@@ -50,17 +55,19 @@ public class PocketDto {
     @Builder
     @Getter
     public static class Response {
+        private UUID id;
         private String pocketName;
         private String backgroundImageUrl;
         private String email;
         private boolean disabled;
-        private Long roomId;
+        private UUID roomId;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
         // Room -> RoomCreateDto.Response
         public static Response of(Pocket pocket) {
             return Response.builder()
+                .id(pocket.getId())
                 .pocketName(pocket.getPocketName())
                 .backgroundImageUrl(pocket.getBackgroundImgUrl())
                 .email(pocket.getEmail())

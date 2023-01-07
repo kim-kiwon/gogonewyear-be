@@ -1,17 +1,22 @@
 package com.gogonew.api.room;
 
-import com.gogonew.api.mysql.domain.room.Room;
-import com.gogonew.api.pocket.PocketDto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.URL;
+
+import com.gogonew.api.mysql.domain.room.Room;
+import com.gogonew.api.pocket.PocketDto;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.URL;
 
 public class RoomDto {
 
@@ -40,6 +45,7 @@ public class RoomDto {
     @Builder
     @Getter
     public static class Response {
+        private UUID id;
         private String roomName;
         private String backgroundImageUrl;
         private boolean disabled;
@@ -50,6 +56,7 @@ public class RoomDto {
         // Room -> RoomCreateDto.Response
         public static Response of(Room room) {
             return Response.builder()
+                .id(room.getId())
                 .roomName(room.getRoomName())
                 .backgroundImageUrl(room.getBackgroundImgUrl())
                 .disabled(room.isDisabled())

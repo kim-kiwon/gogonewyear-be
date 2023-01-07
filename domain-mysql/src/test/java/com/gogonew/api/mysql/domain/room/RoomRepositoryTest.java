@@ -1,5 +1,7 @@
 package com.gogonew.api.mysql.domain.room;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +16,20 @@ class RoomRepositoryTest {
     @Autowired
     private RoomRepository roomRepository;
 
-    @Test
-    void save() {
-        //given
-        Room room = Room.builder()
-            .id(1L)
-            .roomName("testRoom")
-            .backgroundImgUrl("http://www.testurl.com")
-            .disabled(false)
-            .build();
+   @Test
+   void save() {
+       //given
+       Room room = Room.builder()
+           .id(UUID.randomUUID())
+           .roomName("testRoom")
+           .backgroundImgUrl("http://www.testurl.com")
+           .disabled(false)
+           .build();
 
-        // when
-        Room savedRoom = roomRepository.save(room);
+       // when
+       Room savedRoom = roomRepository.save(room);
 
-        // then
-        System.out.println(savedRoom);
-    }
+       // then
+       System.out.println(savedRoom);
+   }
 }
