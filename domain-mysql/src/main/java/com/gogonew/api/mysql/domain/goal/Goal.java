@@ -1,4 +1,4 @@
-package com.gogonew.api.mysql.domain.todo;
+package com.gogonew.api.mysql.domain.goal;
 
 import java.util.UUID;
 
@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Todo extends BaseTimeEntity {
+public class Goal extends BaseTimeEntity {
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(columnDefinition = "BINARY(16)")
@@ -32,7 +32,7 @@ public class Todo extends BaseTimeEntity {
 	private UUID id;
 
 	@Column
-	private String message;
+	private String todo;
 
 	@Column
 	private boolean succeed;

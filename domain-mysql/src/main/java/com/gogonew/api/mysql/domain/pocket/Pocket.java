@@ -15,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.gogonew.api.mysql.domain.BaseTimeEntity;
 import com.gogonew.api.mysql.domain.room.Room;
-import com.gogonew.api.mysql.domain.todo.Todo;
+import com.gogonew.api.mysql.domain.goal.Goal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,7 +51,7 @@ public class Pocket extends BaseTimeEntity {
     private Room room;
 
     @OneToMany(mappedBy = "pocket")
-    private List<Todo> todos;
+    private List<Goal> goals;
 
     public boolean roomIdEquals(UUID roomId) {
         return this.getRoom()
