@@ -41,7 +41,7 @@ public class RoomDto {
             return Room.builder()
                 .roomName(this.getRoomName())
                 .backgroundImgUrl(this.getBackgroundImageUrl())
-                .pockets(new ArrayList<>())
+                .pockets(new ArrayList<>()) // 초기 생성이므로 빈 값 입력
                 .build();
         }
     }

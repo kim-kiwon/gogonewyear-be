@@ -1,6 +1,7 @@
 package com.gogonew.api.pocket;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.URL;
 
+import com.gogonew.api.goal.GoalDto;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.validator.ValidUuid;
@@ -56,6 +58,7 @@ public class PocketDto {
                 .backgroundImgUrl(this.getBackgroundImageUrl())
                 .email(this.getEmail())
                 .room(this.getRoom())
+                .goals(new ArrayList<>())
                 .build();
         }
     }
@@ -69,6 +72,7 @@ public class PocketDto {
         private String email;
         private boolean disabled;
         private UUID roomId;
+        private List<GoalDto.Response> goals;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
@@ -81,6 +85,7 @@ public class PocketDto {
                 .email(pocket.getEmail())
                 .disabled(pocket.isDisabled())
                 .roomId(pocket.getRoom().getId())
+                .goals(GoalDto.Response.ofList(pocket.getGoals()))
                 .createdDate(pocket.getCreatedDate())
                 .modifiedDate(pocket.getModifiedDate())
                 .build();
