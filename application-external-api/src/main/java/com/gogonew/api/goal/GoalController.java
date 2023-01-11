@@ -7,10 +7,10 @@ import javax.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gogonew.api.core.response.ApiMessage;
-import com.gogonew.api.pocket.PocketDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,45 +29,41 @@ import lombok.extern.slf4j.Slf4j;
 public class GoalController {
 	private final GoalService goalService;
 
-	@Operation(summary = "해당 주머니의 모든 목표 조회", description = "해당 주머니의 모든 목표를 조회합니다.")
+	@Operation(summary = "모든 목표 조회", description = "모든 목표를 조회합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "ok",
 			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
 		@ApiResponse(responseCode = "400", description = "client error", content = @Content),
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-	@GetMapping("/v1/{roomId}/pocket/{pocketId}")
-	public ApiMessage getAllPocket(
-		@Parameter(description = "조회할 주머니Id") @PathVariable UUID pocketId) {
-		return ApiMessage.success(pocketService.getAllPocket(roomId));
+	@GetMapping("/v1/goal")
+	public ApiMessage getAllGoal() {
+		return ApiMessage.success(goalService.getAllGoal());
 	}
 
-	@Operation(summary = "해당 주머니의 특정 목표 조회", description = "해당 주머니의 특정 목표를 조회합니다.")
+	@Operation(summary = "목표 단건 조회", description = "해당 Id의 목표를 조회합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "ok",
 			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
 		@ApiResponse(responseCode = "400", description = "client error", content = @Content),
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-	@GetMapping("/v1/{roomId}/pocket/{pocketId}/goal/{goalId}")
+	@GetMapping("/v1/goal/{goalId}")
 	public ApiMessage getGoal(
-		@Parameter(description = "조회할 roomId") @PathVariable UUID roomId,
-		@Parameter(description = "조회할 pocketId") @PathVariable UUID pocketId,
 		@Parameter(description = "조회할 goalId") @PathVariable UUID goalId) {
-		return ApiMessage.success(goalService.getGoal(roomId, pocketId, goalId));
+		return ApiMessage.success(goalService.getGoal(goalId));
 	}
 
-	@Operation(summary = "주머니 생성", description = "신규 주머니를 생성합니다.")
+	@Operation(summary = "목표 생성", description = "신규 목표를 생성합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "ok",
 			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
 		@ApiResponse(responseCode = "400", description = "client error", content = @Content),
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-	@PostMapping("/v1/{roomId}/pocket")
+	@PostMapping("/v1/goal")
 	public ApiMessage createPocket(
-		@Parameter(description = "주머니 추가할 roomId") @PathVariable UUID roomId,
-		@Parameter(description = "입력 데이터") @RequestBody @Valid PocketDto.Create request) {
-		return ApiMessage.success(pocketService.createPocket(roomId, request));
+		@Parameter(description = "입력 데이터") @RequestBody @Valid GoalDto.Create request) {
+		return ApiMessage.success(goalService.createGoal(request));
 	}
 }

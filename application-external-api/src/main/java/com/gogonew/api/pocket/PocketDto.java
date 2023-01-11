@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.URL;
 
 import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.mysql.domain.room.Room;
+import com.gogonew.api.validator.ValidUuid;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +26,10 @@ public class PocketDto {
     @Setter
     @NoArgsConstructor
     public static class Create {
+        @ValidUuid(message = "roomId는 UUID 형태로 입력해주세요")
+        @NotBlank(message = "roomId 필드를 입력해주세요")
+        private String roomId;
+
         @NotBlank(message = "주머니 제목을 입력해주세요")
         @Size(max = 20, message = "주머니 제목은 20자 이내로 작성해주세요.")
         private String pocketName;

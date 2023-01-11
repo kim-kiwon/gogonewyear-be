@@ -30,31 +30,29 @@ public class PocketController {
 
     private final PocketService pocketService;
 
-    @Operation(summary = "해당 Room의 모든 주머니 조회", description = "해당 Room의 모든 주머니를 조회합니다.")
+    @Operation(summary = "모든 주머니 조회", description = "모든 주머니를 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-    @GetMapping("/v1/{roomId}/pocket")
-    public ApiMessage getAllPocket(
-        @Parameter(description = "조회할 roomId") @PathVariable UUID roomId) {
-        return ApiMessage.success(pocketService.getAllPocket(roomId));
+    @GetMapping("/v1/pocket")
+    public ApiMessage getAllPocket() {
+        return ApiMessage.success(pocketService.getAllPocket());
     }
 
-    @Operation(summary = "해당 Room의 특정 주머니 조회", description = "해당 Room의 특정 주머니를 조회합니다.")
+    @Operation(summary = "주머니 단건 조회", description = "해당 Id의 주머니를 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-    @GetMapping("/v1/{roomId}/pocket/{pocketId}")
+    @GetMapping("/v1/pocket/{pocketId}")
     public ApiMessage getPocket(
-        @Parameter(description = "조회할 roomId") @PathVariable UUID roomId,
         @Parameter(description = "조회할 pocketId") @PathVariable UUID pocketId) {
-        return ApiMessage.success(pocketService.getPocket(roomId, pocketId));
+        return ApiMessage.success(pocketService.getPocket(pocketId));
     }
 
     @Operation(summary = "주머니 생성", description = "신규 주머니를 생성합니다.")
@@ -64,10 +62,9 @@ public class PocketController {
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-    @PostMapping("/v1/{roomId}/pocket")
+    @PostMapping("/v1/pocket")
     public ApiMessage createPocket(
-            @Parameter(description = "주머니 추가할 roomId") @PathVariable UUID roomId,
             @Parameter(description = "입력 데이터") @RequestBody @Valid PocketDto.Create request) {
-        return ApiMessage.success(pocketService.createPocket(roomId, request));
+        return ApiMessage.success(pocketService.createPocket(request));
     }
 }

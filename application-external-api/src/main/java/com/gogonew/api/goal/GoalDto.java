@@ -1,12 +1,15 @@
 package com.gogonew.api.goal;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.gogonew.api.mysql.domain.goal.Goal;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
+import com.gogonew.api.validator.ValidUuid;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +24,9 @@ public class GoalDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Create {
+        @ValidUuid
+        @NotBlank(message = "주머니의 Id를 입력해주세요.")
+        private String pocketId;
         @NotBlank(message = "목표를 작성해주세요.")
         @Size(max = 100, message = "목표는 100자 이내로 작성해주세요.")
         private String todo;
@@ -55,6 +61,12 @@ public class GoalDto {
                 .disabled(goal.isDisabled())
                 .pocketId(goal.getPocket().getId())
                 .build();
+        }
+
+        public static List<GoalDto.Response> ofList(List<Goal> goals) {
+            return goals.stream()
+                .map(GoalDto.Response::of)
+                .collect(Collectors.toList());
         }
     }
 }

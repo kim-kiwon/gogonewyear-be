@@ -1,5 +1,6 @@
 package com.gogonew.api.goal;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import com.gogonew.api.mysql.domain.goal.Goal;
 import com.gogonew.api.mysql.domain.goal.GoalRepository;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.mysql.domain.pocket.PocketRepository;
-import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.mysql.domain.room.RoomRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,13 @@ public class GoalService {
 	private final PocketRepository pocketRepository;
 	private final GoalRepository goalRepository;
 
-
+	@Transactional(readOnly = true)
+	public List<GoalDto.Response> getAllGoal() {
+		return GoalDto.Response.ofList(goalRepository.findAll());
+	}
 
 	@Transactional(readOnly = true)
-	public GoalDto.Response getGoal(UUID roomId, UUID pocketId, GoalDto.Create request) {
+	public GoalDto.Response getGoal(UUID goalId) {
 		Goal goal = goalRepository.findById(goalId).orElseThrow(() ->
 			new ApiException(ErrorCode.NO_DATA));
 
@@ -34,18 +37,13 @@ public class GoalService {
 	}
 
 	@Transactional
-	public GoalDto.Response createGoal(UUID roomId, UUID pocketId, GoalDto.Create request) {
-		Room room = roomRepository.findById(roomId).orElseThrow(() ->
-			new ApiException(ErrorCode.NO_DATA));
+	public GoalDto.Response createGoal(GoalDto.Create request) {
+		UUID pocketId = UUID.fromString(request.getPocketId());
 		Pocket pocket = pocketRepository.findById(pocketId).orElseThrow(() ->
 			new ApiException(ErrorCode.NO_DATA));
 
-		// 주머니가 해당 방에 존재하지 않는 경우
-		if (pocket.getRoom().getId() != room.getId()) {
-			throw new ApiException(ErrorCode.INVALID_INPUT_VALUE);
-		}
-
 		request.setPocket(pocket);
+
 		Goal goal = request.toEntity();
 		goalRepository.save(goal);
 
