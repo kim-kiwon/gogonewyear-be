@@ -1,4 +1,4 @@
-package com.gogonew.api.todo;
+package com.gogonew.api.goal;
 
 import java.util.UUID;
 
