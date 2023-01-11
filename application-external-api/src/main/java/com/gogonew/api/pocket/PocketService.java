@@ -25,35 +25,28 @@ public class PocketService {
     private final RoomRepository roomRepository;
 
     @Transactional(readOnly = true)
-    public List<Response> getAllPocket(UUID roomId) {
-        Room room = roomRepository.findById(roomId).orElseThrow(() ->
-            new ApiException(ErrorCode.NO_DATA));
+    public List<Response> getAllPocket() {
+        return PocketDto.Response.ofList(pocketRepository.findAll());
+    }
 
-        return PocketDto.Response.ofList(room.getPockets());
+    @Transactional(readOnly = true)
+    public PocketDto.Response getPocket(UUID pocketId) {
+        Pocket pocket = pocketRepository.findById(pocketId).orElseThrow(() -> new ApiException(ErrorCode.NO_DATA));
+        return PocketDto.Response.of(pocket);
     }
 
     @Transactional
-    public PocketDto.Response createPocket(UUID roomId, PocketDto.Create request) {
+    public PocketDto.Response createPocket(PocketDto.Create request) {
+        UUID roomId = UUID.fromString(request.getRoomId()); // 검증을 위해 String으로 받고. UUID로 변환.
         Room room = roomRepository.findById(roomId).orElseThrow(() ->
             new ApiException(ErrorCode.NO_DATA));
 
-        request.setRoom(room);
+        request.setRoom(room); // 연관관계 주인인 Pocket에서 JPA 연관관계 매핑
 
         Pocket pocket = request.toEntity();
         pocketRepository.save(pocket);
 
         return PocketDto.Response.of(pocket);
     }
-
-    @Transactional(readOnly = true)
-    public PocketDto.Response getPocket(UUID roomId, UUID pocketId) {
-        Pocket pocket = pocketRepository.findById(pocketId).orElseThrow(() -> new ApiException(ErrorCode.NO_DATA));
-        if (!pocket.roomIdEquals(roomId)) {
-            log.error("조회 요청한 주머니가 해당 방에 존재하지 않습니다. ParamRoomId: {}, DBRoomId: {}", roomId, pocket.getRoom().getId());
-            throw new ApiException(ErrorCode.INVALID_INPUT_VALUE);
-        }
-        return PocketDto.Response.of(pocket);
-    }
-
 
 }

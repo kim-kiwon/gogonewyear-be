@@ -1,5 +1,6 @@
 package com.gogonew.api.mysql.domain.pocket;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -8,11 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.gogonew.api.mysql.domain.BaseTimeEntity;
 import com.gogonew.api.mysql.domain.room.Room;
+import com.gogonew.api.mysql.domain.goal.Goal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +49,9 @@ public class Pocket extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "_id")
     private Room room;
+
+    @OneToMany(mappedBy = "pocket")
+    private List<Goal> goals;
 
     public boolean roomIdEquals(UUID roomId) {
         return this.getRoom()

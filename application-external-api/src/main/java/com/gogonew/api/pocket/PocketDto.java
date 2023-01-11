@@ -1,6 +1,7 @@
 package com.gogonew.api.pocket;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -11,9 +12,12 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.URL;
 
+import com.gogonew.api.goal.GoalDto;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.mysql.domain.room.Room;
+import com.gogonew.api.validator.ValidUuid;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +27,13 @@ public class PocketDto {
 
     @Getter
     @Setter
+    @Schema
     @NoArgsConstructor
     public static class Create {
+        @ValidUuid(message = "roomId는 UUID 형태로 입력해주세요")
+        @NotBlank(message = "roomId 필드를 입력해주세요")
+        private String roomId;
+
         @NotBlank(message = "주머니 제목을 입력해주세요")
         @Size(max = 20, message = "주머니 제목은 20자 이내로 작성해주세요.")
         private String pocketName;
@@ -39,6 +48,7 @@ public class PocketDto {
         @Size(max = 100, message = "이메일은 100자 이내로 작성해주세요.")
         private String email;
 
+        @Schema(hidden = true)
         private Room room;
 
         // PocketCreateDto.Request -> Room
@@ -48,6 +58,7 @@ public class PocketDto {
                 .backgroundImgUrl(this.getBackgroundImageUrl())
                 .email(this.getEmail())
                 .room(this.getRoom())
+                .goals(new ArrayList<>())
                 .build();
         }
     }
@@ -61,6 +72,7 @@ public class PocketDto {
         private String email;
         private boolean disabled;
         private UUID roomId;
+        private List<GoalDto.Response> goals;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
@@ -73,6 +85,7 @@ public class PocketDto {
                 .email(pocket.getEmail())
                 .disabled(pocket.isDisabled())
                 .roomId(pocket.getRoom().getId())
+                .goals(GoalDto.Response.ofList(pocket.getGoals()))
                 .createdDate(pocket.getCreatedDate())
                 .modifiedDate(pocket.getModifiedDate())
                 .build();
