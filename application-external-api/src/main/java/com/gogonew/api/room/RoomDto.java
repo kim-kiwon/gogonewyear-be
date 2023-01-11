@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.URL;
 import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.pocket.PocketDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 public class RoomDto {
 
     @Getter
+    @AllArgsConstructor
     @NoArgsConstructor // Spring이 파라미터에서 생성하기 위해 필요
     public static class Create {
         @NotBlank(message = "방 제목을 작성해주세요.")
