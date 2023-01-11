@@ -15,6 +15,7 @@ import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.validator.ValidUuid;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class PocketDto {
 
     @Getter
     @Setter
+    @Schema
     @NoArgsConstructor
     public static class Create {
         @ValidUuid(message = "roomId는 UUID 형태로 입력해주세요")
@@ -44,6 +46,7 @@ public class PocketDto {
         @Size(max = 100, message = "이메일은 100자 이내로 작성해주세요.")
         private String email;
 
+        @Schema(hidden = true)
         private Room room;
 
         // PocketCreateDto.Request -> Room

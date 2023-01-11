@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.URL;
 import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.pocket.PocketDto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class RoomDto {
     public static class Create {
         @NotBlank(message = "방 제목을 작성해주세요.")
         @Size(max = 20, message = "방제목은 20자 이내로 작성해주세요.")
+        @Schema(description = "타입")
         private String roomName;
 
         @URL(message = "배경 이미지는 Url 양식으로 입력해주세요.")

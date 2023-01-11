@@ -51,7 +51,7 @@ public class PocketController {
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/pocket/{pocketId}")
     public ApiMessage getPocket(
-        @Parameter(description = "조회할 pocketId") @PathVariable UUID pocketId) {
+        @Parameter(description = "조회할 주머니의 Id") @PathVariable UUID pocketId) {
         return ApiMessage.success(pocketService.getPocket(pocketId));
     }
 

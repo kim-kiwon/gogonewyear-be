@@ -42,7 +42,7 @@ public class RoomController {
         return ApiMessage.success(roomService.getAllRoom());
     }
 
-    @Operation(summary = "단일 방 조회", description = "roomId를 통해 방을 조회합니다.")
+    @Operation(summary = "방 단건 조회", description = "해당 Id의 방을 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
@@ -51,7 +51,7 @@ public class RoomController {
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/room/{roomId}")
     public ApiMessage getRoom(
-        @Parameter(description = "랜덤으로 부여되는 방의 Id") @PathVariable UUID roomId) {
+        @Parameter(description = "조회할 방의 Id") @PathVariable UUID roomId) {
         return ApiMessage.success(roomService.getRoom(roomId));
     }
 

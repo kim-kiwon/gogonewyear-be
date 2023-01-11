@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Tag(name = "pocket", description = "목표를 생성/조회 합니다.")
+@Tag(name = "goal", description = "목표를 생성/조회 합니다.")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -62,7 +62,7 @@ public class GoalController {
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
 	@PostMapping("/v1/goal")
-	public ApiMessage createPocket(
+	public ApiMessage createGoal(
 		@Parameter(description = "입력 데이터") @RequestBody @Valid GoalDto.Create request) {
 		return ApiMessage.success(goalService.createGoal(request));
 	}

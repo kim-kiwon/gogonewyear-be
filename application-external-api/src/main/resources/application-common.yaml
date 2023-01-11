@@ -13,3 +13,4 @@ springdoc:
   packages-to-scan: com.gogonew.api
   swagger-ui:
     path: /docs
+  use-fqn: true # InnerClass로 Dto 설정할 경우 동일한 스키마 생성되는것 해결.
