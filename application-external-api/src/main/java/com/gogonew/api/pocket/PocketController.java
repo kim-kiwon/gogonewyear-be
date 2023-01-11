@@ -1,4 +1,4 @@
-package com.gogonew.api.room;
+package com.gogonew.api.pocket;
 
 import java.util.UUID;
 
@@ -22,50 +22,52 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Tag(name = "room", description = "방을 생성/조회 합니다.")
+@Tag(name = "pocket", description = "주머니를 생성/조회 합니다.")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class RoomController {
+public class PocketController {
 
-    private final RoomService roomService;
+    private final PocketService pocketService;
 
-    @Operation(summary = "모든 방 조회", description = "모든 방을 조회합니다.")
+    @Operation(summary = "해당 Room의 모든 주머니 조회", description = "해당 Room의 모든 주머니를 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-    @GetMapping("/v1/room")
-    public ApiMessage getAllRoom() {
-        return ApiMessage.success(roomService.getAllRoom());
+    @GetMapping("/v1/{roomId}/pocket")
+    public ApiMessage getAllPocket(
+        @Parameter(description = "조회할 roomId") @PathVariable UUID roomId) {
+        return ApiMessage.success(pocketService.getAllPocket(roomId));
     }
 
-    @Operation(summary = "단일 방 조회", description = "roomId를 통해 방을 조회합니다.")
+    @Operation(summary = "해당 Room의 특정 주머니 조회", description = "해당 Room의 특정 주머니를 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-    @GetMapping("/v1/room/{roomId}")
-    public ApiMessage getRoom(
-        @Parameter(description = "랜덤으로 부여되는 방의 Id") @PathVariable UUID roomId) {
-        return ApiMessage.success(roomService.getRoom(roomId));
+    @GetMapping("/v1/{roomId}/pocket/{pocketId}")
+    public ApiMessage getPocket(
+        @Parameter(description = "조회할 roomId") @PathVariable UUID roomId,
+        @Parameter(description = "조회할 pocketId") @PathVariable UUID pocketId) {
+        return ApiMessage.success(pocketService.getPocket(roomId, pocketId));
     }
 
-
-    @Operation(summary = "방 생성", description = "신규 방을 생성합니다.")
+    @Operation(summary = "주머니 생성", description = "신규 주머니를 생성합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
-    @PostMapping("/v1/room")
-    public ApiMessage createRoom(
-            @Parameter(description = "입력 데이터") @RequestBody @Valid RoomDto.Create request) {
-        return ApiMessage.success(roomService.addRoom(request));
+    @PostMapping("/v1/{roomId}/pocket")
+    public ApiMessage createPocket(
+            @Parameter(description = "주머니 추가할 roomId") @PathVariable UUID roomId,
+            @Parameter(description = "입력 데이터") @RequestBody @Valid PocketDto.Create request) {
+        return ApiMessage.success(pocketService.createPocket(roomId, request));
     }
 }

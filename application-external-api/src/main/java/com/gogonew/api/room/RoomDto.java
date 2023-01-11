@@ -1,19 +1,28 @@
 package com.gogonew.api.room;
 
-import com.gogonew.api.mysql.domain.room.Room;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.URL;
+
+import com.gogonew.api.mysql.domain.room.Room;
+import com.gogonew.api.pocket.PocketDto;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.URL;
 
 public class RoomDto {
 
     @Getter
+    @AllArgsConstructor
     @NoArgsConstructor // Spring이 파라미터에서 생성하기 위해 필요
     public static class Create {
         @NotBlank(message = "방 제목을 작성해주세요.")
@@ -30,26 +39,30 @@ public class RoomDto {
             return Room.builder()
                 .roomName(this.getRoomName())
                 .backgroundImgUrl(this.getBackgroundImageUrl())
+                .pockets(new ArrayList<>())
                 .build();
-
         }
     }
 
     @Builder
     @Getter
     public static class Response {
+        private UUID id;
         private String roomName;
         private String backgroundImageUrl;
         private boolean disabled;
+        private List<PocketDto.Response> pockets;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
         // Room -> RoomCreateDto.Response
         public static Response of(Room room) {
             return Response.builder()
+                .id(room.getId())
                 .roomName(room.getRoomName())
                 .backgroundImageUrl(room.getBackgroundImgUrl())
                 .disabled(room.isDisabled())
+                .pockets(PocketDto.Response.ofList(room.getPockets())) // 순환참조 방지를 위해 Pocket 엔티티를 직접 반환하는게 아닌 Pocket.ResponseDto를 반환
                 .createdDate(room.getCreatedDate())
                 .modifiedDate(room.getModifiedDate())
                 .build();
