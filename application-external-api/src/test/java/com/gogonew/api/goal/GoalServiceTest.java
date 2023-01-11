@@ -12,33 +12,38 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gogonew.api.core.exception.ApiException;
 import com.gogonew.api.mysql.domain.goal.Goal;
 import com.gogonew.api.mysql.domain.goal.GoalRepository;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
+import com.gogonew.api.mysql.domain.pocket.PocketRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class GoalServiceTest {
 	@Mock
 	GoalRepository goalRepository;
 
+	@Mock
+	PocketRepository pocketRepository;
+
 	@InjectMocks
 	GoalService goalService;
 
 	@Test
-	void 목표_단건_조회_성공Test() {
+	void 목표단건조회_성공Test() {
 		// given
-		UUID uuid = UUID.fromString("4a82febb-abe3-4db1-bb8c-dc6386a9db20");
+		UUID uuid = UUID.randomUUID();
 		Goal goal = Goal.builder()
-				.id(uuid)
-				.todo("test목표")
-				.succeed(false)
-				.disabled(false)
-				.pocket(new Pocket())
-				.build();
+			.id(uuid)
+			.todo("test목표")
+			.succeed(false)
+			.disabled(false)
+			.pocket(new Pocket())
+			.build();
 		given(goalRepository.findById(uuid)).willReturn(Optional.ofNullable(goal));
 
 		// when
-		GoalDto.Response responseDto = goalService.getGoal();
+		GoalDto.Response responseDto = goalService.getGoal(uuid);
 
 		// then
 		assertThat(responseDto.getId()).isEqualTo(uuid);
@@ -48,12 +53,12 @@ public class GoalServiceTest {
 	}
 
 	@Test
-	void 목표_단건_조회_실패Test() {
+	void 목표단건조회_UUID해당데이터없을경우_실패Test() {
+		// given
+		UUID badUuid = UUID.randomUUID();
+		given(goalRepository.findById(badUuid)).willReturn(Optional.empty());
 
-	}
-
-	@Test
-	void 목표_생성_성공Test() {
-
+		// when/then
+		assertThatThrownBy(() -> goalService.getGoal(badUuid)).isInstanceOf(ApiException.class);
 	}
 }

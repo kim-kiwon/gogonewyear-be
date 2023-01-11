@@ -6,21 +6,25 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.gogonew.api.mysql.domain.goal.Goal;
+import com.gogonew.api.mysql.domain.pocket.Pocket;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class GoalDto {
 
     @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Create {
         @NotBlank(message = "목표를 작성해주세요.")
         @Size(max = 100, message = "목표는 100자 이내로 작성해주세요.")
         private String todo;
+        private Pocket pocket;
 
         // GoalCreateDto -> Goal
         public Goal toEntity() {
@@ -28,6 +32,7 @@ public class GoalDto {
                 .todo(this.getTodo())
                 .disabled(false)
                 .succeed(false)
+                .pocket(this.getPocket())
                 .build();
         }
     }
