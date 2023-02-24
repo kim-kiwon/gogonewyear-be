@@ -24,6 +24,7 @@ public class RoomDto {
 
     @Getter
     @AllArgsConstructor
+    @Schema(name = "RoomCreateDto")
     @NoArgsConstructor // Spring이 파라미터에서 생성하기 위해 필요
     public static class Create {
         @NotBlank(message = "방 제목을 작성해주세요.")

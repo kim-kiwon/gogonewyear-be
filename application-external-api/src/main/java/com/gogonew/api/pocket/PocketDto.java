@@ -27,7 +27,7 @@ public class PocketDto {
 
     @Getter
     @Setter
-    @Schema
+    @Schema(name = "PocketCreateDto")
     @NoArgsConstructor
     public static class Create {
         @ValidUuid(message = "roomId는 UUID 형태로 입력해주세요")
