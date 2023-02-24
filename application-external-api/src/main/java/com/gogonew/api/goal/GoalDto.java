@@ -21,7 +21,7 @@ public class GoalDto {
 
     @Getter
     @Setter
-    @Schema
+    @Schema(name = "GoalCreateDto")
     @NoArgsConstructor
     public static class Create {
         @ValidUuid
