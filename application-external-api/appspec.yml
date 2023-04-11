@@ -18,3 +18,7 @@ hooks:
     - location: scripts/start.sh
       timeout: 60
       runas: ec2-user
+      environment:
+        MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+        MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
