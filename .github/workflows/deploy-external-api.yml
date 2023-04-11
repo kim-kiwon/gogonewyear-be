@@ -49,6 +49,7 @@ jobs:
       - name: Create secret.sh
         run: |
           echo "#!/usr/bin/env bash" > ${{ env.ADD_ENVIRONMENT_SCRIPT }}
+          echo "export MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> ${{ env.ADD_ENVIRONMENT_SCRIPT }}
           echo "export MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}" >> ${{ env.ADD_ENVIRONMENT_SCRIPT }}
           echo "export MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> ${{ env.ADD_ENVIRONMENT_SCRIPT }} 
 
