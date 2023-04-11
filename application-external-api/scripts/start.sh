@@ -10,8 +10,7 @@ DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 TIME_NOW=$(date +%c)
 
 # MYSQL 설정 환경변수 주입
-chmod +x secret.sh
-source secret.sh
+source ~/.bash_profile
 
 # build 파일 복사
 echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
