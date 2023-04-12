@@ -10,6 +10,7 @@ DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 TIME_NOW=$(date +%c)
 
 # MYSQL 설정 환경변수 주입
+# CodeDeploy 에서 절대경로로 넣어줘야 실행함
 chmod +x /home/ec2-user/external-api/scripts/secret.sh
 source /home/ec2-user/external-api/scripts/secret.sh
 
