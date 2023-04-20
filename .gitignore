@@ -8,6 +8,6 @@ build/
 *.iml
 *.ipr
 out/
-**/application-real.yaml
+**/generated/
 !**/src/main/**/out/
 !**/src/test/**/out/
