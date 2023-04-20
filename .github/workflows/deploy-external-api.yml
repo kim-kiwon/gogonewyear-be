@@ -3,7 +3,7 @@ name: Deploy External API to EC2
 on:
   push:
     branches:
-      feature/github-action
+      master
 
 env:
   AWS_REGION: ap-northeast-2
@@ -27,8 +27,6 @@ jobs:
       # (1) 코드 체크아웃
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          ref: feature/github-action
 
       # (2) JDK 17 설정
       - name: Set up JDK 17
