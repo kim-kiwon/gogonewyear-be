@@ -1,5 +1,6 @@
 package com.gogonew.api.pocket;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -38,7 +39,7 @@ public class PocketController {
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/pocket")
-    public ApiResult getAllPocket() {
+    public ApiResult<List<PocketDto.Response>> getAllPocket() {
         return ApiResult.success(pocketService.getAllPocket());
     }
 
@@ -50,7 +51,7 @@ public class PocketController {
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/pocket/{pocketId}")
-    public ApiResult getPocket(
+    public ApiResult<PocketDto.Response> getPocket(
         @Parameter(description = "조회할 주머니의 Id") @PathVariable UUID pocketId) {
         return ApiResult.success(pocketService.getPocket(pocketId));
     }
@@ -63,7 +64,7 @@ public class PocketController {
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @PostMapping("/v1/pocket")
-    public ApiResult createPocket(
+    public ApiResult<PocketDto.Response> createPocket(
             @Parameter(description = "입력 데이터") @RequestBody @Valid PocketDto.Create request) {
         return ApiResult.success(pocketService.createPocket(request));
     }

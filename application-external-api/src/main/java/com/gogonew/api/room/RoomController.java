@@ -1,5 +1,6 @@
 package com.gogonew.api.room;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -38,7 +39,7 @@ public class RoomController {
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/room")
-    public ApiResult getAllRoom() {
+    public ApiResult<List<RoomDto.Response>> getAllRoom() {
         return ApiResult.success(roomService.getAllRoom());
     }
 
@@ -50,7 +51,7 @@ public class RoomController {
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/room/{roomId}")
-    public ApiResult getRoom(
+    public ApiResult<RoomDto.Response> getRoom(
         @Parameter(description = "조회할 방의 Id") @PathVariable UUID roomId) {
         return ApiResult.success(roomService.getRoom(roomId));
     }
@@ -64,7 +65,7 @@ public class RoomController {
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @PostMapping("/v1/room")
-    public ApiResult createRoom(
+    public ApiResult<RoomDto.Response> createRoom(
             @Parameter(description = "입력 데이터") @RequestBody @Valid RoomDto.Create request) {
         return ApiResult.success(roomService.addRoom(request));
     }

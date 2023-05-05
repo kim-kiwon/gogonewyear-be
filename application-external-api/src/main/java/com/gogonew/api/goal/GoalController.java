@@ -1,5 +1,6 @@
 package com.gogonew.api.goal;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -37,7 +38,7 @@ public class GoalController {
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
 	@GetMapping("/v1/goal")
-	public ApiResult getAllGoal() {
+	public ApiResult<List<GoalDto.Response>> getAllGoal() {
 		return ApiResult.success(goalService.getAllGoal());
 	}
 
@@ -49,7 +50,7 @@ public class GoalController {
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
 	@GetMapping("/v1/goal/{goalId}")
-	public ApiResult getGoal(
+	public ApiResult<GoalDto.Response> getGoal(
 		@Parameter(description = "조회할 goalId") @PathVariable UUID goalId) {
 		return ApiResult.success(goalService.getGoal(goalId));
 	}
@@ -62,7 +63,7 @@ public class GoalController {
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
 	@PostMapping("/v1/goal")
-	public ApiResult createGoal(
+	public ApiResult<GoalDto.Response> createGoal(
 		@Parameter(description = "입력 데이터") @RequestBody @Valid GoalDto.Create request) {
 		return ApiResult.success(goalService.createGoal(request));
 	}
