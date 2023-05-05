@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gogonew.api.core.response.ApiMessage;
+import com.gogonew.api.core.response.ApiResult;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,39 +33,39 @@ public class RoomController {
     @Operation(summary = "모든 방 조회", description = "모든 방을 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/room")
-    public ApiMessage getAllRoom() {
-        return ApiMessage.success(roomService.getAllRoom());
+    public ApiResult getAllRoom() {
+        return ApiResult.success(roomService.getAllRoom());
     }
 
     @Operation(summary = "방 단건 조회", description = "해당 Id의 방을 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/room/{roomId}")
-    public ApiMessage getRoom(
+    public ApiResult getRoom(
         @Parameter(description = "조회할 방의 Id") @PathVariable UUID roomId) {
-        return ApiMessage.success(roomService.getRoom(roomId));
+        return ApiResult.success(roomService.getRoom(roomId));
     }
 
 
     @Operation(summary = "방 생성", description = "신규 방을 생성합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @PostMapping("/v1/room")
-    public ApiMessage createRoom(
+    public ApiResult createRoom(
             @Parameter(description = "입력 데이터") @RequestBody @Valid RoomDto.Create request) {
-        return ApiMessage.success(roomService.addRoom(request));
+        return ApiResult.success(roomService.addRoom(request));
     }
 }

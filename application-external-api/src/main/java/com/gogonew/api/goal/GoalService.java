@@ -6,20 +6,17 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gogonew.api.core.exception.ApiException;
-import com.gogonew.api.core.exception.ErrorCode;
+import com.gogonew.api.core.exception.NoDataException;
 import com.gogonew.api.mysql.domain.goal.Goal;
 import com.gogonew.api.mysql.domain.goal.GoalRepository;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.mysql.domain.pocket.PocketRepository;
-import com.gogonew.api.mysql.domain.room.RoomRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class GoalService {
-	private final RoomRepository roomRepository;
 	private final PocketRepository pocketRepository;
 	private final GoalRepository goalRepository;
 
@@ -31,7 +28,7 @@ public class GoalService {
 	@Transactional(readOnly = true)
 	public GoalDto.Response getGoal(UUID goalId) {
 		Goal goal = goalRepository.findById(goalId).orElseThrow(() ->
-			new ApiException(ErrorCode.NO_DATA));
+			new NoDataException("Goal이 존재하지 않습니다. goalId = " + goalId));
 
 		return GoalDto.Response.of(goal);
 	}
@@ -40,7 +37,7 @@ public class GoalService {
 	public GoalDto.Response createGoal(GoalDto.Create request) {
 		UUID pocketId = UUID.fromString(request.getPocketId());
 		Pocket pocket = pocketRepository.findById(pocketId).orElseThrow(() ->
-			new ApiException(ErrorCode.NO_DATA));
+			new NoDataException("Pocket이 존재하지 않습니다. pocketId = " + pocketId));
 
 		request.setPocket(pocket);
 

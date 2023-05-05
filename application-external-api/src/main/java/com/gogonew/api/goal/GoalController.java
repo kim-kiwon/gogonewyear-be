@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gogonew.api.core.response.ApiMessage;
+import com.gogonew.api.core.response.ApiResult;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,38 +32,38 @@ public class GoalController {
 	@Operation(summary = "모든 목표 조회", description = "모든 목표를 조회합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "ok",
-			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
 		@ApiResponse(responseCode = "400", description = "client error", content = @Content),
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
 	@GetMapping("/v1/goal")
-	public ApiMessage getAllGoal() {
-		return ApiMessage.success(goalService.getAllGoal());
+	public ApiResult getAllGoal() {
+		return ApiResult.success(goalService.getAllGoal());
 	}
 
 	@Operation(summary = "목표 단건 조회", description = "해당 Id의 목표를 조회합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "ok",
-			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
 		@ApiResponse(responseCode = "400", description = "client error", content = @Content),
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
 	@GetMapping("/v1/goal/{goalId}")
-	public ApiMessage getGoal(
+	public ApiResult getGoal(
 		@Parameter(description = "조회할 goalId") @PathVariable UUID goalId) {
-		return ApiMessage.success(goalService.getGoal(goalId));
+		return ApiResult.success(goalService.getGoal(goalId));
 	}
 
 	@Operation(summary = "목표 생성", description = "신규 목표를 생성합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "ok",
-			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+			content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
 		@ApiResponse(responseCode = "400", description = "client error", content = @Content),
 		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
 		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
 	@PostMapping("/v1/goal")
-	public ApiMessage createGoal(
+	public ApiResult createGoal(
 		@Parameter(description = "입력 데이터") @RequestBody @Valid GoalDto.Create request) {
-		return ApiMessage.success(goalService.createGoal(request));
+		return ApiResult.success(goalService.createGoal(request));
 	}
 }

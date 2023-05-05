@@ -1,39 +1,58 @@
 package com.gogonew.api.handler;
 
-import com.gogonew.api.core.exception.ApiException;
-import com.gogonew.api.core.exception.ErrorCode;
-import com.gogonew.api.core.response.ApiMessage;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.gogonew.api.core.exception.CustomException;
+import com.gogonew.api.core.response.ApiResult;
+import com.gogonew.api.core.response.ResponseType;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
-    // 미처리 에러. 클라이언트에게 서버에러로 전송 및 로깅.
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiMessage> handleGlobalException(Exception ex) {
-        log.error("[Global] 미처리 예외 발생.", ex);
-        return getErrorResponse(ErrorCode.SERVER_ERROR);
-    }
+	// 미처리 예외
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ApiResult> handleGlobalException(Exception ex) {
+		ResponseType responseType = ResponseType.NOT_HANDLED;
+		log.error(ex.getMessage(), ex);
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiMessage> handleValidationException(MethodArgumentNotValidException ex) {
-        log.warn("[Validation] 검증 예외 발생.", ex);
-        return getErrorResponse(ErrorCode.INVALID_INPUT_VALUE);
-    }
+		return ResponseEntity.status(responseType.getHttpStatus())
+			.body(ApiResult.fail(responseType, ex.getMessage()));
+	}
 
-    @ExceptionHandler(ApiException.class)
-    public ResponseEntity<ApiMessage> handleApiException(ApiException ex) {
-        log.error("[Custom] 커스텀 예외 발생", ex);
-        return getErrorResponse(ex.getErrorCode());
-    }
+	@ExceptionHandler(CustomException.class)
+	public ResponseEntity<ApiResult<?>> handleCustomException(CustomException ex) {
+		ResponseType responseType = ex.getResponseType();
+		log.error(ex.getMessage(), ex);
 
-    private ResponseEntity<ApiMessage> getErrorResponse(ErrorCode errorCode) {
-        return ResponseEntity
-            .status(errorCode.getStatus())
-            .body(ApiMessage.fail(errorCode));
-    }
+		return ResponseEntity.status(responseType.getHttpStatus())
+			.body(ApiResult.fail(responseType, ex.getMessage()));
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ApiResult> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+		ResponseType responseType = ResponseType.INVALID_INPUT;
+		log.warn(ex.getMessage(), ex);
+
+		return ResponseEntity.status(responseType.getHttpStatus())
+			.body(ApiResult.fail(responseType, convertBindingErrorToString(ex.getBindingResult().getFieldErrors())));
+	}
+
+	private String convertBindingErrorToString(List<FieldError> errorList) {
+		StringBuilder sb = new StringBuilder();
+		for (FieldError error : errorList) {
+			sb.append(error.getField());
+			sb.append(" : ");
+			sb.append(error.getDefaultMessage());
+			sb.append(" \n ");
+		}
+		return sb.toString();
+	}
 }

@@ -6,8 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gogonew.api.core.exception.ApiException;
-import com.gogonew.api.core.exception.ErrorCode;
+import com.gogonew.api.core.exception.NoDataException;
 import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.mysql.domain.room.RoomRepository;
 
@@ -25,7 +24,7 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public RoomDto.Response getRoom(UUID roomId) {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new ApiException(ErrorCode.NO_DATA));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new NoDataException("Room이 존재하지 않습니다. roomId = " + roomId));
         return RoomDto.Response.of(room);
     }
 
