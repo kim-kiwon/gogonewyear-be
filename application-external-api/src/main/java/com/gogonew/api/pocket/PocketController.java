@@ -1,5 +1,6 @@
 package com.gogonew.api.pocket;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gogonew.api.core.response.ApiMessage;
+import com.gogonew.api.core.response.ApiResult;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,38 +34,38 @@ public class PocketController {
     @Operation(summary = "모든 주머니 조회", description = "모든 주머니를 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/pocket")
-    public ApiMessage getAllPocket() {
-        return ApiMessage.success(pocketService.getAllPocket());
+    public ApiResult<List<PocketDto.Response>> getAllPocket() {
+        return ApiResult.success(pocketService.getAllPocket());
     }
 
     @Operation(summary = "주머니 단건 조회", description = "해당 Id의 주머니를 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @GetMapping("/v1/pocket/{pocketId}")
-    public ApiMessage getPocket(
+    public ApiResult<PocketDto.Response> getPocket(
         @Parameter(description = "조회할 주머니의 Id") @PathVariable UUID pocketId) {
-        return ApiMessage.success(pocketService.getPocket(pocketId));
+        return ApiResult.success(pocketService.getPocket(pocketId));
     }
 
     @Operation(summary = "주머니 생성", description = "신규 주머니를 생성합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "ok",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class))}),
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))}),
         @ApiResponse(responseCode = "400", description = "client error", content = @Content),
         @ApiResponse(responseCode = "404", description = "not found", content = @Content),
         @ApiResponse(responseCode = "500", description = "server error", content = @Content)})
     @PostMapping("/v1/pocket")
-    public ApiMessage createPocket(
+    public ApiResult<PocketDto.Response> createPocket(
             @Parameter(description = "입력 데이터") @RequestBody @Valid PocketDto.Create request) {
-        return ApiMessage.success(pocketService.createPocket(request));
+        return ApiResult.success(pocketService.createPocket(request));
     }
 }

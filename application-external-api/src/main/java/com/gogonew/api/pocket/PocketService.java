@@ -6,8 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gogonew.api.core.exception.ApiException;
-import com.gogonew.api.core.exception.ErrorCode;
+import com.gogonew.api.core.exception.NoDataException;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.mysql.domain.pocket.PocketRepository;
 import com.gogonew.api.mysql.domain.room.Room;
@@ -31,7 +30,7 @@ public class PocketService {
 
     @Transactional(readOnly = true)
     public PocketDto.Response getPocket(UUID pocketId) {
-        Pocket pocket = pocketRepository.findById(pocketId).orElseThrow(() -> new ApiException(ErrorCode.NO_DATA));
+        Pocket pocket = pocketRepository.findById(pocketId).orElseThrow(() -> new NoDataException("Pocket이 존재하지 않습니다. pocketId = " + pocketId));
         return PocketDto.Response.of(pocket);
     }
 
@@ -39,7 +38,7 @@ public class PocketService {
     public PocketDto.Response createPocket(PocketDto.Create request) {
         UUID roomId = UUID.fromString(request.getRoomId()); // 검증을 위해 String으로 받고. UUID로 변환.
         Room room = roomRepository.findById(roomId).orElseThrow(() ->
-            new ApiException(ErrorCode.NO_DATA));
+            new NoDataException("Room이 존재하지 않습니다. roomId = " + roomId));
 
         request.setRoom(room); // 연관관계 주인인 Pocket에서 JPA 연관관계 매핑
 
