@@ -49,6 +49,7 @@ public class RoomDto {
 
     @Builder
     @Getter
+    @Schema(name = "RoomResponseDto")
     public static class Response {
         private UUID id;
         private String roomName;
