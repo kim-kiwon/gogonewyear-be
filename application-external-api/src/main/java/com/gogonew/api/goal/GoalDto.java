@@ -46,6 +46,7 @@ public class GoalDto {
 
     @Builder
     @Getter
+    @Schema(name = "GoalResponseDto")
     public static class Response {
         private UUID id;
         private String todo;

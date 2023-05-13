@@ -65,6 +65,7 @@ public class PocketDto {
 
     @Builder
     @Getter
+    @Schema(name = "PocketResponseDto")
     public static class Response {
         private UUID id;
         private String pocketName;
