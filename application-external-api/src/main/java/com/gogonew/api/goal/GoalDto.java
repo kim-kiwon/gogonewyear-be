@@ -1,9 +1,11 @@
 package com.gogonew.api.goal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -44,6 +46,35 @@ public class GoalDto {
         }
     }
 
+    @Getter
+    @Setter
+    @Schema(name = "GoalCreateBulkDto")
+    @NoArgsConstructor
+    public static class CreateBulk {
+        @ValidUuid
+        @NotBlank(message = "주머니의 Id를 입력해주세요.")
+        private String pocketId;
+        @Valid
+        List<GoalInfo> goalInfos;
+        @Schema(hidden = true)
+        private Pocket pocket;
+
+        // CreateBulk -> Goal
+        public List<Goal> toEntity() {
+            List<Goal> entities = new ArrayList<>();
+            for (GoalInfo goalInfo : goalInfos) {
+                Goal goal = Goal.builder()
+                    .todo(goalInfo.getTodo())
+                    .disabled(false)
+                    .succeed(false)
+                    .pocket(this.getPocket())
+                    .build();
+                entities.add(goal);
+            }
+            return entities;
+        }
+    }
+
     @Builder
     @Getter
     @Schema(name = "GoalResponseDto")
@@ -70,5 +101,12 @@ public class GoalDto {
                 .map(GoalDto.Response::of)
                 .collect(Collectors.toList());
         }
+    }
+
+    @Getter
+    private static class GoalInfo {
+        @NotBlank(message = "목표를 작성해주세요.")
+        @Size(max = 100, message = "목표는 100자 이내로 작성해주세요.")
+        private String todo;
     }
 }

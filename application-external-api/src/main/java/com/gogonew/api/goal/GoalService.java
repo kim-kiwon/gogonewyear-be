@@ -46,4 +46,18 @@ public class GoalService {
 
 		return GoalDto.Response.of(goal);
 	}
+
+	@Transactional
+	public List<GoalDto.Response> createGoalBulk(GoalDto.CreateBulk requestBulk) {
+		UUID pocketId = UUID.fromString(requestBulk.getPocketId());
+		Pocket pocket = pocketRepository.findById(pocketId).orElseThrow(() ->
+			new NoDataException("Pocket이 존재하지 않습니다. pocketId = " + pocketId));
+
+		requestBulk.setPocket(pocket);
+
+		List<Goal> goals = requestBulk.toEntity();
+		goalRepository.saveAll(goals);
+
+		return GoalDto.Response.ofList(goals);
+	}
 }

@@ -63,4 +63,16 @@ public class GoalController {
 		@Parameter(description = "입력 데이터") @RequestBody @Valid GoalDto.Create request) {
 		return ApiResult.success(goalService.createGoal(request));
 	}
+
+	@Operation(summary = "목표 복수개 생성", description = "복수 개의 신규 목표를 생성합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "ok"),
+		@ApiResponse(responseCode = "400", description = "client error", content = @Content),
+		@ApiResponse(responseCode = "404", description = "not found", content = @Content),
+		@ApiResponse(responseCode = "500", description = "server error", content = @Content)})
+	@PostMapping("/v1/goal/bulk")
+	public ApiResult<List<GoalDto.Response>> createGoalBulk(
+		@Parameter(description = "입력 데이터") @RequestBody @Valid GoalDto.CreateBulk request) {
+		return ApiResult.success(goalService.createGoalBulk(request));
+	}
 }
