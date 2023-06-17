@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gogonew.api.core.exception.ApiException;
+import com.gogonew.api.core.exception.NoDataException;
 import com.gogonew.api.mysql.domain.goal.Goal;
 import com.gogonew.api.mysql.domain.goal.GoalRepository;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
@@ -59,6 +59,6 @@ public class GoalServiceTest {
 		given(goalRepository.findById(badUuid)).willReturn(Optional.empty());
 
 		// when/then
-		assertThatThrownBy(() -> goalService.getGoal(badUuid)).isInstanceOf(ApiException.class);
+		assertThatThrownBy(() -> goalService.getGoal(badUuid)).isInstanceOf(NoDataException.class);
 	}
 }

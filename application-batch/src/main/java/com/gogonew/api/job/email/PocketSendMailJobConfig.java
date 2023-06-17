@@ -1,4 +1,4 @@
-package com.gogonew.api.job;
+package com.gogonew.api.job.email;
 
 import static com.gogonew.api.common.BatchComponent.*;
 
@@ -7,6 +7,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -41,6 +42,7 @@ public class PocketSendMailJobConfig {
 		@Qualifier(PREFIX + STEP) Step step) {
 		return new JobBuilder(PREFIX + JOB)
 			.start(step)
+			.incrementer(new RunIdIncrementer())
 			.build();
 	}
 

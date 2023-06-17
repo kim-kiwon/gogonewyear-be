@@ -1,4 +1,4 @@
-package com.gogonew.api.service;
+package com.gogonew.api.email;
 
 import java.util.Date;
 
@@ -7,19 +7,23 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Service
-public class EmailService {
+@Repository
+public class EmailRepository {
 	private final JavaMailSender mailSender;
 
-	public void sendEmail(String from, String recipient, String subject, String text) throws MessagingException {
+	@Value("${spring.mail.username}")
+	private String FROM_ADDRESS;
+
+	public void sendEmail(String recipient, String subject, String text) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
-		message.setFrom(from);
+		message.setFrom(FROM_ADDRESS);
 		message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 		message.setSubject(subject);
 		message.setText(text);
