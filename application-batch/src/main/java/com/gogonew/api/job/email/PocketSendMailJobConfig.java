@@ -2,8 +2,6 @@ package com.gogonew.api.job.email;
 
 import static com.gogonew.api.common.BatchComponent.*;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.batch.core.Job;
@@ -96,12 +94,13 @@ public class PocketSendMailJobConfig {
 	@StepScope
 	public ItemProcessor<Pocket, Pocket> itemProcessor() {
 		return pocket -> {
-			LocalDateTime createdDate = pocket.getCreatedDate();
-
-			if (createdDate.isBefore(LocalDateTime.now().minusMonths(1))) {
-				return pocket;
-			}
-			return null;
+			return pocket;
+			// LocalDateTime createdDate = pocket.getCreatedDate();
+			//
+			// if (createdDate.isBefore(LocalDateTime.now().minusMonths(1))) {
+			// 	return pocket;
+			// }
+			// return null;
 		};
 	}
 
@@ -111,9 +110,10 @@ public class PocketSendMailJobConfig {
 		return chunk -> {
 			for (Pocket pocket : chunk) {
 				String email = pocket.getEmail();
+				String mailSubject = "[Gogonew] 목표 설정 한달이 지나 메일드립니다.";
 				String mailText = createMailText(pocket);
 
-				emailRepository.sendEmail(email, "[Gogonew] 목표 설정 한달이 지나 메일드립니다.", mailText);
+				emailRepository.sendEmail(email, mailSubject, mailText);
 			}
 		};
 	}
