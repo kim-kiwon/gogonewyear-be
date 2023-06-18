@@ -131,42 +131,34 @@ public class GoalServiceTest {
 		assertThat(responseDto.isDisabled()).isFalse();
 	}
 
-	// @Test
-	// void 목표_벌크_추가_성공Test() {
-	// 	// given
-	// 	Pocket pocket1 = Pocket.builder()
-	// 		.id(POCKET_ID)
-	// 		.pocketName("testPocket1")
-	// 		.backgroundImgUrl("http://www.testurl1.com")
-	// 		.email("testEmail@naver.com")
-	// 		.goals(new ArrayList<>())
-	// 		.build();
-	//
-	// 	GoalDto.Create createDto1 = GoalDto.Create.builder()
-	// 		.pocketId(POCKET_ID.toString())
-	// 		.todo("testGoal1")
-	// 		.build();
-	// 	GoalDto.Create createDto2 = GoalDto.Create.builder()
-	// 		.pocketId(POCKET_ID.toString())
-	// 		.todo("testGoal2")
-	// 		.build();
-	//
-	// 	GoalDto.CreateBulk createBulkDto = GoalDto.CreateBulk.builder()
-	// 		.pocketId(POCKET_ID)
-	// 		.goalInfos(List.of())
-	// 	List<GoalDto.Create> createDtos = List.of(createDto1, createDto2);
-	//
-	// 	List<Goal> createGoals = createDtos
-	//
-	// 	when(pocketRepository.findById(POCKET_ID)).thenReturn(Optional.ofNullable(pocket1));
-	// 	when(goalRepository.save(any(Goal.class))).thenReturn(createGoal);
-	//
-	// 	// when
-	// 	GoalDto.Response responseDto = sut.createGoal(createDto);
-	//
-	// 	// then
-	// 	assertThat(responseDto.getTodo()).isEqualTo("testGoal1");
-	// 	assertThat(responseDto.isSucceed()).isFalse();
-	// 	assertThat(responseDto.isDisabled()).isFalse();
-	// }
+	@Test
+	void 목표_벌크_추가_성공Test() {
+		// given
+		Pocket pocket1 = Pocket.builder()
+			.id(POCKET_ID)
+			.pocketName("testPocket1")
+			.backgroundImgUrl("http://www.testurl1.com")
+			.email("testEmail@naver.com")
+			.goals(new ArrayList<>())
+			.build();
+
+		GoalDto.CreateBulk createBulkDto = GoalDto.CreateBulk.builder()
+			.pocketId(POCKET_ID.toString())
+			.todos(List.of("testGoal1", "testGoal2"))
+			.build();
+
+		List<Goal> createGoals = createBulkDto.toEntity();
+
+		when(pocketRepository.findById(POCKET_ID)).thenReturn(Optional.ofNullable(pocket1));
+		when(goalRepository.saveAll(anyList())).thenReturn(createGoals);
+
+		// when
+		List<GoalDto.Response> responseDtos = sut.createGoalBulk(createBulkDto);
+
+		// then
+		assertThat(responseDtos.get(0).getPocketId()).isEqualTo(POCKET_ID);
+		assertThat(responseDtos.get(0).getTodo()).isEqualTo("testGoal1");
+		assertThat(responseDtos.get(1).getPocketId()).isEqualTo(POCKET_ID);
+		assertThat(responseDtos.get(1).getTodo()).isEqualTo("testGoal2");
+	}
 }
