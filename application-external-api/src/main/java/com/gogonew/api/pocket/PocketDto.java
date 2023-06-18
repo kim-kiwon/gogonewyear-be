@@ -18,6 +18,7 @@ import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.validator.ValidUuid;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,8 @@ public class PocketDto {
     @Getter
     @Setter
     @Schema(name = "PocketCreateDto")
+    @Builder
+    @AllArgsConstructor
     @NoArgsConstructor
     public static class Create {
         @ValidUuid(message = "roomId는 UUID 형태로 입력해주세요")
