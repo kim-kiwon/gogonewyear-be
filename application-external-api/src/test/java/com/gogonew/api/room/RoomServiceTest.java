@@ -15,17 +15,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gogonew.api.core.exception.NoDataException;
 import com.gogonew.api.mysql.domain.room.Room;
 import com.gogonew.api.mysql.domain.room.RoomRepository;
 
 @ExtendWith(MockitoExtension.class)
 class RoomServiceTest {
+	private static final UUID ROOM_ID = UUID.fromString("4a82febb-abe3-4db1-bb8c-dc6386a9db20");
+	private static final UUID NOT_EXIST_ROOM_ID = UUID.fromString("40010ab0-a4ab-4c35-a7ee-1b14a200c529");
 
 	@Mock
 	private RoomRepository roomRepository;
 
 	@InjectMocks
-	private RoomService roomService;
+	private RoomService sut;
 
 	@Test
 	void 모든_방조회_성공Test() {
@@ -43,10 +46,10 @@ class RoomServiceTest {
 			.pockets(new ArrayList<>())
 			.build();
 
-		given(roomRepository.findAll()).willReturn(Arrays.asList(room1, room2));
+		when(roomRepository.findAll()).thenReturn(Arrays.asList(room1, room2));
 
 		// when
-		List<RoomDto.Response> responseDtos = roomService.getAllRoom();
+		List<RoomDto.Response> responseDtos = sut.getAllRoom();
 
 		// then
 		assertThat(responseDtos.get(0).getRoomName()).isEqualTo("testRoom1");
@@ -64,15 +67,23 @@ class RoomServiceTest {
 			.disabled(false)
 			.pockets(new ArrayList<>())
 			.build();
-		UUID uuid = UUID.fromString("4a82febb-abe3-4db1-bb8c-dc6386a9db20");
-		given(roomRepository.findById(uuid)).willReturn(Optional.ofNullable(room));
+		when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.ofNullable(room));
 
 		// when
-		RoomDto.Response responseDto = roomService.getRoom(uuid);
+		RoomDto.Response responseDto = sut.getRoom(ROOM_ID);
 
 		// then
 		assertThat(responseDto.getRoomName()).isEqualTo("testRoom1");
 		assertThat(responseDto.getBackgroundImageUrl()).isEqualTo("http://www.testurl.com");
+	}
+
+	@Test
+	void 특정_방_조회_데이터_미존재시_실패Test() {
+		// given
+		when(roomRepository.findById(NOT_EXIST_ROOM_ID)).thenReturn(Optional.empty());
+
+		// when/then
+		assertThatThrownBy(() -> sut.getRoom(NOT_EXIST_ROOM_ID)).isInstanceOf(NoDataException.class);
 	}
 
 	@Test
@@ -83,7 +94,7 @@ class RoomServiceTest {
 		given(roomRepository.save(any())).willReturn(room);
 
 		// when
-		RoomDto.Response responseDto = roomService.addRoom(createDto);
+		RoomDto.Response responseDto = sut.addRoom(createDto);
 
 		// then
 		assertThat(responseDto.getRoomName()).isEqualTo("testRoom1");

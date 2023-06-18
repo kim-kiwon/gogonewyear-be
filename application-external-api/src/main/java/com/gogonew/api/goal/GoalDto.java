@@ -14,6 +14,7 @@ import com.gogonew.api.mysql.domain.pocket.Pocket;
 import com.gogonew.api.validator.ValidUuid;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,8 @@ public class GoalDto {
     @Getter
     @Setter
     @Schema(name = "GoalCreateDto")
+    @Builder
+    @AllArgsConstructor
     @NoArgsConstructor
     public static class Create {
         @ValidUuid
@@ -49,6 +52,8 @@ public class GoalDto {
     @Getter
     @Setter
     @Schema(name = "GoalCreateBulkDto")
+    @Builder
+    @AllArgsConstructor
     @NoArgsConstructor
     public static class CreateBulk {
         @ValidUuid
