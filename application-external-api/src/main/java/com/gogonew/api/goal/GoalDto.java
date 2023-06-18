@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import com.gogonew.api.mysql.domain.goal.Goal;
 import com.gogonew.api.mysql.domain.pocket.Pocket;
+import com.gogonew.api.validator.ValidTodo;
 import com.gogonew.api.validator.ValidUuid;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,8 +31,7 @@ public class GoalDto {
         @ValidUuid
         @NotBlank(message = "주머니의 Id를 입력해주세요.")
         private String pocketId;
-        @NotBlank(message = "목표를 작성해주세요.")
-        @Size(max = 100, message = "목표는 100자 이내로 작성해주세요.")
+        @ValidTodo
         private String todo;
         @Schema(hidden = true)
         private Pocket pocket;
@@ -59,17 +57,16 @@ public class GoalDto {
         @ValidUuid
         @NotBlank(message = "주머니의 Id를 입력해주세요.")
         private String pocketId;
-        @Valid
-        List<GoalInfo> goalInfos;
+        List<@ValidTodo String> todos;
         @Schema(hidden = true)
         private Pocket pocket;
 
         // CreateBulk -> Goal
         public List<Goal> toEntity() {
             List<Goal> entities = new ArrayList<>();
-            for (GoalInfo goalInfo : goalInfos) {
+            for (String todo : todos) {
                 Goal goal = Goal.builder()
-                    .todo(goalInfo.getTodo())
+                    .todo(todo)
                     .disabled(false)
                     .succeed(false)
                     .pocket(this.getPocket())
@@ -106,12 +103,5 @@ public class GoalDto {
                 .map(GoalDto.Response::of)
                 .collect(Collectors.toList());
         }
-    }
-
-    @Getter
-    private static class GoalInfo {
-        @NotBlank(message = "목표를 작성해주세요.")
-        @Size(max = 100, message = "목표는 100자 이내로 작성해주세요.")
-        private String todo;
     }
 }
