@@ -11,19 +11,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 
-@RequiredArgsConstructor
+@Getter
 @Repository
 public class EmailRepository {
 	private final JavaMailSender mailSender;
+	private final String fromAddress;
 
-	@Value("${spring.mail.username}")
-	private String FROM_ADDRESS;
+	public EmailRepository(JavaMailSender mailSender, @Value("${spring.mail.username") String fromAddress) {
+		this.mailSender = mailSender;
+		this.fromAddress = fromAddress;
+	}
 
 	public void sendEmail(String recipient, String subject, String text) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
-		message.setFrom(FROM_ADDRESS);
+		message.setFrom(fromAddress);
 		message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 		message.setSubject(subject);
 		message.setText(text);
