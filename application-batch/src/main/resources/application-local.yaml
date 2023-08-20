@@ -4,12 +4,12 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: never
+      initialize-schema: always
   mail:
     host: smtp.naver.com
     port: 465
-    username: ${EMAIL_USERNAME}
-    password: ${EMAIL_PASSWORD}
+    username:
+    password:
     properties:
       mail.smtp.auth: true
       mail.smtp.ssl.enable: true
