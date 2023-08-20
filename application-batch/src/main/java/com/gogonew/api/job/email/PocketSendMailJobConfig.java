@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Configuration
 public class PocketSendMailJobConfig {
-	private static final String PREFIX = "PocketSendMail";
+	public static final String PREFIX = "PocketSendMail";
 
 	private static final int CHUNK_SIZE = 30;
 	private static final int RETRY_LIMIT = 2;
