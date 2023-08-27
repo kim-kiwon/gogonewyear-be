@@ -3,7 +3,7 @@ name: Deploy External API to EC2
 on:
   push:
     branches:
-      master
+      feature/batch-deploy
 
 env:
   AWS_REGION: ap-northeast-2
